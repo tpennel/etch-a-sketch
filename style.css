@@ -1,0 +1,25 @@
+.header {
+  border: dashed pink;
+  text-align: center;
+}
+
+.grid {
+  height: 800px;
+  width: 800px;
+  border: 5px solid red;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+}
+
+.cell {
+  border: solid blue;
+}
+
+.hover:hover {
+  cursor: pointer;
+  border: dashed gold;
+}
+
+.black {
+  background-color: black;
+}
