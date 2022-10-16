@@ -1,9 +1,47 @@
 const grid = document.querySelector('.grid');
+const slider = document.querySelector('.slider');
+const sliderNum = document.querySelector('.gridSize');
+const blackButton = document.querySelector('.blackButton');
+const randomButton = document.querySelector('.randomButton');
+const choiceButton = document.querySelector('.choiceButton');
+const colorSelector = document.querySelector('.colorSelector');
 
-const gridSize = 16;
-const color = 'black';
+let gridSize = slider.value;
+sliderNum.innerHTML = gridSize;
+let colorChoice = '';
 
-function makeGrid(num) {
+//Update the visual value and grid size based on the slider
+slider.oninput = function() {
+  sliderNum.innerHTML = this.value;
+  gridSize = this.value;
+  makeGrid(this.value);
+}
+
+//Allow for someone ot choose their own color
+colorSelector.oninput = function() {
+  colorChoice = this.value;
+}
+
+// Choose the fill-in color
+let fillinColor = 'black';
+
+blackButton.addEventListener('click', () => {
+  fillinColor = 'black';
+  makeGrid(gridSize, fillinColor);
+});
+
+randomButton.addEventListener('click', () => {
+  fillinColor = 'random';
+  makeGrid(gridSize, fillinColor);
+});
+
+choiceButton.addEventListener('click', () => {
+  fillinColor = 'choice';
+  makeGrid(gridSize, fillinColor);
+})
+
+function makeGrid(num, color) {
+  grid.textContent = '';
   for (let i = 0; i < (num * num); i++) {
     grid.setAttribute('style', `grid-template-columns: repeat(${num}, 1fr)`);
     const cellNode = document.createElement('div');
@@ -13,27 +51,39 @@ function makeGrid(num) {
     cellNode.classList.add('hover');
     grid.appendChild(cellNode);
   }
-  backgroundBlack();
+  
+  changeColor(color);
 }
 
-function backgroundBlack() {
+function changeColor() {
+  if (fillinColor === 'black')
+    fillinBlack();
+  else if (fillinColor === 'random')
+    fillinRandom();
+  else
+    fillinChoice();
+}
+
+function fillinBlack() {
   const cells = document.querySelectorAll('.cell');
   cells.forEach(cell => cell.addEventListener('mouseover', () => {
-    cell.classList.add('black');
+    cell.setAttribute('style', 'background-color: black');
   }));
 }
 
-function backgroundMulti() {
+function fillinRandom() {
   const cells = document.querySelectorAll('.cell');
   cells.forEach(cell => cell.addEventListener('mouseover', () => {
-    cell.classList.add('black');
+    const color = randomColor();
+    cell.setAttribute('style', 'background-color: ' + color);
   }));
 }
 
-function backgroundChoice(color) {
+function fillinChoice() {
   const cells = document.querySelectorAll('.cell');
   cells.forEach(cell => cell.addEventListener('mouseover', () => {
-    cell.classList.add(color);
+    const color = 
+    cell.setAttribute('style', 'background-color: ' + colorChoice);
   }));
 }
 
@@ -41,18 +91,7 @@ function randomColor() {
   const r = Math.floor(Math.random() * 256)
   const g = Math.floor(Math.random() * 256)
   const b = Math.floor(Math.random() * 256)
-  console.log(r, g, b);
-  return (r, g, b);
+  return (`rgb(${r}, ${g}, ${b})`);
 }
 
-function resize() {
-  let size = prompt('How big to you want the grid?');
-  while (size > 100) {
-    size = prompt('Needs to be under 100!')
-  }
-  grid.textContent = '';
-  makeGrid(size);
-}
-
-
-makeGrid(gridSize);
+makeGrid(gridSize, fillinColor);

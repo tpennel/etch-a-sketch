@@ -9,7 +9,16 @@
 </head>
 <body>
   <header class="header">ETCH-A-SKETCH</header>
-  <button onclick="resize()" class="resize">Click to Resize</button>
+  <div class="sliderBar">
+    <div class="gridText">Size of Display:</div>
+    <input type="range" min="1" max="100" value="16" class="slider">
+    <div class="gridSize">16</div>
+  </div>
+  <div class="buttons">
+    <button class="blackButton button">Black</button>
+    <button class="randomButton button">Random</button>
+    <button class="choiceButton button">Choice<input type="color" class="colorSelector" value="#000000"></button>
+  </div>
   <div class="grid">
   </div>  
 </body>
